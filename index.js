@@ -171,7 +171,3 @@ app.post('/api/sponsor', (req,res) => {
 app.listen(port, () => {
   console.log(`API listening on ${port} port`);
 });
-
-
-böyle bir kodum var ancak api/streamer endpointine bir post isteği geldiğinde image upload durumu opsiyonel şekilde olacak yani client tarafından image geledebilir gelmeyedebilir bu duruma göre 
-kodu refactor eder misin ?
