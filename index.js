@@ -92,7 +92,7 @@ const streamerRender = ({ name,email,phone,birthDate,tiktok,city,hearus,gender }
   )
 }
 
-app.post('/api/streamer', upload.single('image') ,(req, res) => {
+app.post('/api/streamer',(req, res) => {
   const {
     birthDate,
     city,
@@ -104,7 +104,11 @@ app.post('/api/streamer', upload.single('image') ,(req, res) => {
     tiktok
   } = req.body;
 
-  const imagePath = `./uploads/${req.file.filename}`;
+  let imagePath = null;
+
+  if (req.file) {
+    imagePath = `./uploads/${req.file.filename}`;
+  }
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -119,10 +123,7 @@ app.post('/api/streamer', upload.single('image') ,(req, res) => {
     to: process.env.USER_MAIL,
     subject: "Yayıncı Başvurusu",
     html: streamerRender({name,email,phone,birthDate,tiktok,city,hearus,gender}),
-    attachments: [{
-      path: imagePath,
-      filename: req.file.originalname,
-    }]
+    attachments: imagePath ? [{ path: imagePath, filename: req.file.originalname }] : []
   }, (error, info) => {
     if (error) {
       return res.status(500).json({
@@ -170,3 +171,7 @@ app.post('/api/sponsor', (req,res) => {
 app.listen(port, () => {
   console.log(`API listening on ${port} port`);
 });
+
+
+böyle bir kodum var ancak api/streamer endpointine bir post isteği geldiğinde image upload durumu opsiyonel şekilde olacak yani client tarafından image geledebilir gelmeyedebilir bu duruma göre 
+kodu refactor eder misin ?
