@@ -3,6 +3,8 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import multer from 'multer';
 import cors from 'cors';
+import bodyParser from 'body-parser';
+
 
 const app = express();
 const port = 3000;
@@ -18,7 +20,7 @@ const upload = multer({
   storage
 });
 
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 dotenv.config();
 
