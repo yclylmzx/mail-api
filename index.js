@@ -94,7 +94,7 @@ const streamerRender = ({ name,email,phone,birthDate,tiktok,city,hearus,gender }
   )
 }
 
-app.post('/api/streamer',(req, res) => {
+app.post('/api/streamer', upload.single('image'),(req, res) => {
   const {
     birthDate,
     city,
