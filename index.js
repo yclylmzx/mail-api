@@ -5,9 +5,9 @@ import multer from 'multer';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 
-
 const app = express();
 const port = 3000;
+dotenv.config();
 
 const storage = multer.diskStorage({
   destination: './uploads',
@@ -22,7 +22,6 @@ const upload = multer({
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-dotenv.config();
 
 const sponsorRender = ({ name,email,phone,brandname,branddesc,desc }) => {
   return (
@@ -48,7 +47,7 @@ const sponsorRender = ({ name,email,phone,brandname,branddesc,desc }) => {
         <span>${branddesc}</span>
       </div>
       <div>
-        <b style="margin-right:3px;">Açıklama</b>
+        <b style="margin-right:3px;">Açıklama:</b>
         <span>${desc}</span>
       </div>
     </div>`
@@ -87,7 +86,7 @@ const streamerRender = ({ name,email,phone,birthDate,tiktok,city,hearus,gender }
         <span>${hearus}</span>
       </div>
       <div>
-        <b style="margin-right:3px;">Cinsiyet</b>
+        <b style="margin-right:3px;">Cinsiyet:</b>
         <span>${gender}</span>
       </div>
     </div>`
@@ -140,7 +139,7 @@ app.post('/api/streamer', upload.single('image'),(req, res) => {
   });
 });
 
-app.post('/api/sponsor', (req,res) => {
+app.post('/api/sponsor', upload.single('image'), (req,res) => {
   const { brandname,branddesc,desc,name,email,phone } = req.body;
 
   const transporter = nodemailer.createTransport({
